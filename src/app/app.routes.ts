@@ -5,8 +5,8 @@ import { DashboardComponent } from './components/dashboard/dashboard';
 import { QuestoesComponent } from './components/questoes/questoes';
 import { ServidorComponent } from './components/servidor/servidor';
 import { Servidorlist } from './components/servidor/servidorlist/servidorlist';
-import { Servidordetails } from './components/servidor/servidordetails/servidordetails';
- 
+import { ServidorDetailsComponent } from './components/servidor/servidordetails/servidordetails';
+
   import { UsuariosComponent } from './components/usuarios/usuarios';
 
 export const routes: Routes = [
@@ -17,8 +17,8 @@ export const routes: Routes = [
         { path: 'dashboard', component: DashboardComponent },  
         { path: 'servidor', component: ServidorComponent },
         { path: 'servidorlist', component: Servidorlist },
-        { path: 'admin/servidordetails', component: Servidordetails },
-        { path: 'admin/servidor/edit/:id', component: ServidorComponent },
+        { path: 'admin/servidordetails', component: ServidorDetailsComponent },
+        { path: 'admin/servidordetails/:id', component: ServidorDetailsComponent },
         
         { path: 'questoes', component: QuestoesComponent },  
          ]}

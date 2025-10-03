@@ -11,7 +11,7 @@ import { Servidor } from '../../models/servidor';
 })
 
 export class ServidorComponent {
- servidor: Servidor = new Servidor(0, '', '', '', '', new Date());
+ servidor: Servidor = new Servidor(0, '', '', '', '', new Date(),'');
 
   save() {
     alert('Salvo com sucesso!');

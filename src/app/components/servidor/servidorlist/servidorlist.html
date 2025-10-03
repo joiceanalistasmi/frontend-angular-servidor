@@ -28,8 +28,8 @@
                                 <td>{{servidor.setor}}</td>
                                 <td>{{servidor.dataAvaliacao}}</td>
                                 <td class="direita">
-                                    <button type="button" class="btn btn-primary btn-rounded" mdbRippled routerLink="admin/servidor/edit/{{servidor.id}}">Editar</button>
-                                   <button type="button" class="btn btn-danger btn-rounded" mdbRippled (click)="delete()">Delete</button>
+                                    <button type="button" class="btn btn-primary btn-rounded" mdbRippled [routerLink]="['/admin/admin/servidordetails', servidor.id]">Editar</button>
+                                   <button type="button" class="btn btn-danger btn-rounded" mdbRippled (click)="deleteById(servidor)">Delete</button>
                                 </td>
                             </tr>
                            }
@@ -42,3 +42,27 @@
         </div>
     </div>
 </div>
+
+
+<ng-template #modalServidorDetails>
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Servidor </h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="modalRef.close()"
+  ></button>
+</div>
+<div class="modal-body">...</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
+    Close
+  </button>
+  <button type="button" class="btn btn-primary">Save changes</button>
+</div>
+
+
+</ng-template>
+
+https://www.youtube.com/watch?v=J5Vd2aWKwyI&t=439s
