@@ -1,9 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input, input } from '@angular/core';
 import { MdbFormsModule } from "mdb-angular-ui-kit/forms";
 import { Servidor } from '../../../models/servidor';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';  
 import Swal from 'sweetalert2';
+import { EventEmitter, Output } from '@angular/core';
+ 
 
 @Component({
   selector: 'app-servidordetails',
@@ -13,7 +15,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./servidordetails.scss'] 
 })
 export class ServidorDetailsComponent {  
-  servidor: Servidor = new Servidor(0, '', '', '', '', new Date(), '');
+ 
+  @Input("servidor") servidor : Servidor = new Servidor(0, '', '', '', '', new Date(), '');
+  //servidor: Servidor = new Servidor(0, '', '', '', '', new Date(), '');
+   @Output("retorno") retorno = new EventEmitter<any>();
+
   router = inject(ActivatedRoute);  
   router2 = inject(Router);
 
@@ -47,11 +53,13 @@ export class ServidorDetailsComponent {
         state: { servidorNovo: this.servidor }
       });
     }
+    this.retorno.emit(this.servidor);
+    
   }
 
   findById(id: number) { 
     const servidoretornado = 
-    new Servidor(id, 'Jurema', '12345', 'Analista', 'TI', new Date(), "Concursado");
+    new Servidor(id, "abc", '12345', 'Analista', 'TI', new Date(), "Concursado");
     this.servidor = servidoretornado;
   }
 }

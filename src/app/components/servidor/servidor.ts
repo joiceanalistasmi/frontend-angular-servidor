@@ -16,7 +16,7 @@ export class ServidorComponent {
   save() {
     alert('Salvo com sucesso!');
   }
-  constructor() {}
+ constructor() {}
 
 
 

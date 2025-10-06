@@ -6,7 +6,10 @@
             <div class="card">
                 <div class="card-body">
                 <div class="direita">
+                    <!--
                     <button type="button" class="btn btn-success btn-rounded" mdbRippled routerLink="/admin/admin/servidordetails">Novo</button>
+                     -->
+                    <button type="button" class="btn btn-success btn-rounded" mdbRippled (click)="new()">Novo</button>
                 </div>  
                     <h3> <i class="fas fa-car fa-sm"></i> Servidores cadastrados</h3><br>         
                     <table [border]="1" class="table table-striped table-hover"> 
@@ -20,19 +23,18 @@
                             </tr>
 
                         </thead>
-                        <tbody>
-                           @for (servidor of lista; track $index) {
-                            <tr> 
-                                <td>{{servidor.nome}}</td>
-                                <td>{{servidor.cargoAtual}}</td>
-                                <td>{{servidor.setor}}</td>
-                                <td>{{servidor.dataAvaliacao}}</td>
-                                <td class="direita">
-                                    <button type="button" class="btn btn-primary btn-rounded" mdbRippled [routerLink]="['/admin/admin/servidordetails', servidor.id]">Editar</button>
-                                   <button type="button" class="btn btn-danger btn-rounded" mdbRippled (click)="deleteById(servidor)">Delete</button>
-                                </td>
-                            </tr>
-                           }
+                     <tbody>
+                        <tr *ngFor="let servidor of lista; index as i">
+                            <td>{{servidor.nome}}</td>
+                            <td>{{servidor.cargoAtual}}</td>
+                            <td>{{servidor.setor}}</td>
+                            <td>{{servidor.dataAvaliacao}}</td>
+                            <td class="direita">
+                            <button type="button" class="btn btn-primary btn-rounded" mdbRippled (click)="edit(servidor)">Editar</button>
+                            <!-- <button type="button" class="btn btn-primary btn-rounded" mdbRippled [routerLink]="['/admin/admin/servidordetails', servidor.id]">Editar</button>-->
+                            <button type="button" class="btn btn-danger btn-rounded" mdbRippled (click)="deleteById(servidor)">Delete</button>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
 
@@ -46,7 +48,7 @@
 
 <ng-template #modalServidorDetails>
 <div class="modal-header">
-  <h5 class="modal-title" id="exampleModalLabel">Servidor </h5>
+  <h5 class="modal-title" id="exampleModalLabel">Cadastro de Servidor </h5>
   <button
     type="button"
     class="btn-close"
@@ -54,15 +56,12 @@
     (click)="modalRef.close()"
   ></button>
 </div>
-<div class="modal-body">...</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
-    Close
-  </button>
-  <button type="button" class="btn btn-primary">Save changes</button>
+<div class="modal-body">
+    <!-- Passa o obj servidor para o componente filho -->
+    <app-servidordetails [servidor]="servidorEdit" (retorno)="retornoDetalhe($event)"> </app-servidordetails>
 </div>
+
 
 
 </ng-template>
 
-https://www.youtube.com/watch?v=J5Vd2aWKwyI&t=439s
