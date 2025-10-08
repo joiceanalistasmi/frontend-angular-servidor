@@ -1,36 +1,41 @@
-import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Servidor } from '../../../models/servidor';
 import Swal from 'sweetalert2';
 import { MdbModalService, MdbModalRef, MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { CommonModule } from '@angular/common';
 import { ServidorDetailsComponent } from "../servidordetails/servidordetails";
+import { ServidorService } from '../../../services/servidor';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-servidorlist',
   standalone: true,
-  imports: [CommonModule, RouterLink, MdbModalModule, ServidorDetailsComponent],
+  imports: [
+    CommonModule,
+    MdbModalModule,
+    ServidorDetailsComponent,
+    HttpClientModule,  
+  ],
   templateUrl: './servidorlist.html',
   styleUrls: ['./servidorlist.scss']
 })
-export class Servidorlist {
-
+export class Servidorlist implements OnInit {
   modalService = inject(MdbModalService);
-  @ViewChild('modalServidorDetails') modalServidorDetails!: TemplateRef<any>;
-  
-   servidorEdit: Servidor = new Servidor(0, '', '', '', '', new Date(), '');
+  servidorService = inject(ServidorService);
 
-  
+  @ViewChild('modalServidorDetails') modalServidorDetails!: TemplateRef<any>;
+
+  servidorEdit: Servidor = new Servidor(0, '', '', '', '', new Date(), '');
+
   modalRef!: MdbModalRef<any>;
 
   lista: Servidor[] = [];
-  
-  constructor(private router: Router) {
-    this.lista = [
-      new Servidor(1, 'João Silva', '12345', 'Analista', 'TI', new Date(), "Concursado"),
-      new Servidor(2, 'Maria Souza', '67890', 'Desenvolvedor', 'TI', new Date(), "Comissionado"),
-      new Servidor(3, 'Carlos Pereira', '54321', 'Gerente', 'RH', new Date(), "Concursado")
-    ];
+
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    this.findAll();
 
     const navigation = this.router.getCurrentNavigation();
     const servidorNovo = navigation?.extras?.state?.['servidorNovo'];
@@ -40,25 +45,21 @@ export class Servidorlist {
       const indice = this.lista.findIndex(s => s.id === servidorEditado.id);
       if (indice !== -1) {
         this.lista[indice] = servidorEditado;
-        Swal.fire({
-          title: 'Sucesso!',
-          text: 'Editado com sucesso!',
-          icon: 'success',
-          confirmButtonText: 'Ok'
-        });
+        Swal.fire('Sucesso!', 'Editado com sucesso!', 'success');
       }
     }
 
     if (servidorNovo) {
-      servidorNovo.id = this.lista.length + 1;
       this.lista.push(servidorNovo);
-      Swal.fire({
-        title: 'Sucesso!',
-        text: 'Cadastrado com sucesso!',
-        icon: 'success',
-        confirmButtonText: 'Ok'
-      });
+      Swal.fire('Sucesso!', 'Cadastrado com sucesso!', 'success');
     }
+  }
+
+  findAll() {
+    this.servidorService.findAll().subscribe({
+      next: (lista) => this.lista = lista,
+      error: (erro) => console.error(erro)
+    });
   }
 
   deleteById(servidor: Servidor) {
@@ -75,39 +76,26 @@ export class Servidorlist {
         const indice = this.lista.findIndex(s => s.id === servidor.id);
         if (indice !== -1) {
           this.lista.splice(indice, 1);
-          Swal.fire({
-            title: 'Deletado com sucesso!',
-            icon: 'success',
-            confirmButtonText: 'Ok'
-          });
+          Swal.fire('Deletado com sucesso!', '', 'success');
         }
       }
     });
   }
-
+ 
   new() {
     this.servidorEdit = new Servidor(0, '', '', '', '', new Date(), '');
     this.modalRef = this.modalService.open(this.modalServidorDetails, {
       modalClass: 'modal-lg'
     });
   }
+
   edit(servidor: Servidor) {
-    this.servidorEdit = Object.assign({}, servidor); //clona o obj para evitar ref do obj
-      this.modalRef =  this.modalService.open(this.modalServidorDetails, {
-        
-    });
-    //this.modalRef =  this.modalService.open(this.modalServidorDetails);
+    this.servidorEdit = Object.assign({}, servidor); // evita ligação direta com o objeto original
+    this.modalRef = this.modalService.open(this.modalServidorDetails);
   }
+
   retornoDetalhe(servidor: Servidor) {
-    if (servidor.id > 0) {
-      let indice = this.lista.findIndex(s => s.id === servidor.id);
-      this.lista[indice] = servidor;
-    } else{
-      servidor.id = this.lista.length + 1;
-      this.lista.push(servidor);
-    }
-      this.modalRef.close();
-
+    this.findAll();
+    this.modalRef.close();
   }
-
 }

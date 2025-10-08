@@ -18,7 +18,7 @@
                     </mdb-form-control>
                     <br>
                     <mdb-form-control>
-                        <input mdbInput type="text" id="cargo" placeholder="cargo" class="form-control" [(ngModel)]="servidor.cargoAtual" name="cargo"/>
+                        <input mdbInput type="text" id="cargo" placeholder="Cargo" class="form-control" [(ngModel)]="servidor.cargoAtual" name="cargo"/>
                         <label for="cargo" class="form-label">cargo</label>
                     </mdb-form-control>
                      <br>
@@ -26,7 +26,10 @@
                         <input mdbInput type="text" id="setor" placeholder="Setor" class="form-control" [(ngModel)]="servidor.setor" name="setor"/>
                         <label for="setor" class="form-label">Setor</label>
                     </mdb-form-control>
-                 
+                    <mdb-form-control>
+                        <input mdbInput type="date" id="dataAvaliacao" placeholder="Data de avaliação" class="form-control" [(ngModel)]="servidor.dataAvaliacao" name="dataAvaliacao"/>
+                        <label for="dataAvaliacao" class="form-label">Data de avaliação</label>
+                    </mdb-form-control>
                     <br>
                     <div class="mb-3">
                     <label class="form-label d-block">Tipo de Avaliação</label>
@@ -35,7 +38,7 @@
                             class="form-check-input" 
                             type="radio" 
                             name="tipoAvaliacao" 
-                            id="tipoConcursado" 
+                            id="concursado" 
                             [value]="'Concursado'" 
                             [(ngModel)]="servidor.tipoAvaliacao" />
                             <label class="form-check-label" for="tipoConcursado">Concursado</label>
@@ -46,7 +49,7 @@
                             class="form-check-input" 
                             type="radio" 
                             name="tipoAvaliacao" 
-                            id="tipoProbatório" 
+                            id="probatorio" 
                             [value]="'Estágio Probatório'" 
                             [(ngModel)]="servidor.tipoAvaliacao" />
                             <label class="form-check-label" for="tipoProbatório">Estágio Probatório</label>

@@ -1,11 +1,10 @@
-import { Component, inject, Input, input } from '@angular/core';
+import { Component, inject, Input, Output, EventEmitter } from '@angular/core';
 import { MdbFormsModule } from "mdb-angular-ui-kit/forms";
 import { Servidor } from '../../../models/servidor';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';  
 import Swal from 'sweetalert2';
-import { EventEmitter, Output } from '@angular/core';
- 
+import { ServidorService } from '../../../services/servidor';
 
 @Component({
   selector: 'app-servidordetails',
@@ -15,16 +14,16 @@ import { EventEmitter, Output } from '@angular/core';
   styleUrls: ['./servidordetails.scss'] 
 })
 export class ServidorDetailsComponent {  
- 
-  @Input("servidor") servidor : Servidor = new Servidor(0, '', '', '', '', new Date(), '');
-  //servidor: Servidor = new Servidor(0, '', '', '', '', new Date(), '');
-   @Output("retorno") retorno = new EventEmitter<any>();
 
-  router = inject(ActivatedRoute);  
-  router2 = inject(Router);
+  @Input("servidor") servidor: Servidor = new Servidor(0, '', '', '', '', new Date(), '');
+  @Output("retorno") retorno = new EventEmitter<any>();
+
+  private activatedRoute = inject(ActivatedRoute);  
+  private router = inject(Router);
+  private servidorService = inject(ServidorService);
 
   constructor() {
-    const id = +this.router.snapshot.params['id']; // forçando number
+    const id = +this.activatedRoute.snapshot.params['id']; // forçando number
     if (id > 0) {
       this.findById(id);
     }
@@ -32,34 +31,63 @@ export class ServidorDetailsComponent {
 
   save() {
     if (this.servidor.id > 0) {
-      Swal.fire({
-        title: 'Sucesso!',
-        text: 'Editado com sucesso!',
-        icon: 'success',
-        confirmButtonText: 'Ok'
+      this.servidorService.update(this.servidor, this.servidor.id).subscribe({
+        next: mensagem => {
+          Swal.fire({
+            title: mensagem,
+            icon: 'success',  
+            confirmButtonText: 'Ok'
+          })
+              this.router.navigate(['admin/servidorlist'], {
+              state: { servidorEditado: this.servidor }
+            });
+          this.retorno.emit(this.servidor);
+        },
+        error: erro => {
+          Swal.fire({
+            title: 'Erro!',
+            icon: 'error',  
+            confirmButtonText: 'Ok',
+          });
+        }
       });
-      
-      this.router2.navigate(['admin/servidorlist'], {
-        state: { servidorEditado: this.servidor }
-      });
+
     } else {
-      Swal.fire({
-        title: 'Sucesso!',
-        text: 'Cadastrado com sucesso!',
-        icon: 'success',
-        confirmButtonText: 'Ok'
-      });
-      this.router2.navigate(['admin/servidorlist'], {
-        state: { servidorNovo: this.servidor }
+      this.servidorService.save(this.servidor).subscribe({
+        next: mensagem => {
+          Swal.fire({
+            title: 'Sucesso!',
+            text: 'Cadastrado com sucesso!',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+          })
+            this.router.navigate(['admin/servidorlist'], {
+              state: { servidorNovo: this.servidor } });
+            this.retorno.emit(this.servidor);
+        },
+        error: erro => {
+          Swal.fire({
+            title: 'Ocorreu um Erro na gravação!',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          });
+        }
       });
     }
-    this.retorno.emit(this.servidor);
-    
   }
 
   findById(id: number) { 
-    const servidoretornado = 
-    new Servidor(id, "abc", '12345', 'Analista', 'TI', new Date(), "Concursado");
-    this.servidor = servidoretornado;
+    this.servidorService.findById(id).subscribe({
+      next: retorno => {
+         this.servidor = retorno;
+      },
+      error: erro => {
+        Swal.fire({
+          title: 'Erro!', 
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
+      }
+    });
   }
 }
