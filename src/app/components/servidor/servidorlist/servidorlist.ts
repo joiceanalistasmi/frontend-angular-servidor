@@ -26,7 +26,7 @@ export class Servidorlist implements OnInit {
 
   @ViewChild('modalServidorDetails') modalServidorDetails!: TemplateRef<any>;
 
-  servidorEdit: Servidor = new Servidor(0, '', '', '', '', new Date(), '');
+  servidorEdit: Servidor = new Servidor();
 
   modalRef!: MdbModalRef<any>;
 
@@ -83,7 +83,7 @@ export class Servidorlist implements OnInit {
   }
  
   new() {
-    this.servidorEdit = new Servidor(0, '', '', '', '', new Date(), '');
+    this.servidorEdit = new Servidor();
     this.modalRef = this.modalService.open(this.modalServidorDetails, {
       modalClass: 'modal-lg'
     });
@@ -98,4 +98,5 @@ export class Servidorlist implements OnInit {
     this.findAll();
     this.modalRef.close();
   }
+ 
 }

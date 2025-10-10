@@ -11,7 +11,7 @@ import { Servidor } from '../../models/servidor';
 })
 
 export class ServidorComponent {
- servidor: Servidor = new Servidor(0, '', '', '', '', new Date(),'');
+ servidor: Servidor = new Servidor();
 
   save() {
     alert('Salvo com sucesso!');
@@ -19,6 +19,13 @@ export class ServidorComponent {
  constructor() {}
 
 
-
+formatarDataParaInput(data: string | Date): string {
+  const d = new Date(data);
+  const year = d.getFullYear();
+  const month = (d.getMonth() + 1).toString().padStart(2, '0');
+  const day = d.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+ 
 
 }

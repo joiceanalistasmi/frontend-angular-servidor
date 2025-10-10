@@ -15,7 +15,7 @@ import { ServidorService } from '../../../services/servidor';
 })
 export class ServidorDetailsComponent {  
 
-  @Input("servidor") servidor: Servidor = new Servidor(0, '', '', '', '', new Date(), '');
+  @Input("servidor") servidor: Servidor = new Servidor();
   @Output("retorno") retorno = new EventEmitter<any>();
 
   private activatedRoute = inject(ActivatedRoute);  
@@ -29,7 +29,27 @@ export class ServidorDetailsComponent {
     }
   }
 
+ findById(id: number) { 
+    this.servidorService.findById(id).subscribe({
+      next: retorno => {
+         this.servidor = retorno;
+      },
+      error: erro => {
+        Swal.fire({
+          title: 'Erro!', 
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
+      }
+    });
+  }
+
   save() {
+   
+    if (this.servidor.data_admissao instanceof Date){
+      this.servidor.data_admissao = formatarData(this.servidor.data_admissao as Date)
+    }
+
     if (this.servidor.id > 0) {
       this.servidorService.update(this.servidor, this.servidor.id).subscribe({
         next: mensagem => {
@@ -53,14 +73,15 @@ export class ServidorDetailsComponent {
       });
 
     } else {
+      
       this.servidorService.save(this.servidor).subscribe({
         next: mensagem => {
           Swal.fire({
             title: 'Sucesso!',
             text: 'Cadastrado com sucesso!',
             icon: 'success',
-            confirmButtonText: 'Ok'
-          })
+            confirmButtonText: 'Ok',
+          });
             this.router.navigate(['admin/servidorlist'], {
               state: { servidorNovo: this.servidor } });
             this.retorno.emit(this.servidor);
@@ -73,21 +94,11 @@ export class ServidorDetailsComponent {
           });
         }
       });
-    }
+    }  
   }
 
-  findById(id: number) { 
-    this.servidorService.findById(id).subscribe({
-      next: retorno => {
-         this.servidor = retorno;
-      },
-      error: erro => {
-        Swal.fire({
-          title: 'Erro!', 
-          icon: 'error',
-          confirmButtonText: 'Ok'
-        });
-      }
-    });
-  }
+  
+} 
+export function formatarData(data: Date): string {
+  return data.toISOString().split('T')[0];
 }

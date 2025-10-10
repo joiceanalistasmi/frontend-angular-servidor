@@ -17,18 +17,18 @@
                             <tr>
 
                                 <th scope="col">Nome</th>
-                                <th scope="col">Cargo</th>
-                                <th scope="col">Setor</th>
-                                <th scope="col">Data_de_avaliação</th>
+                                <th scope="col">Matricula</th>
+                                <th scope="col">Cargo</th>  
+                                <th scope="col">Vínculo funcional</th> 
                             </tr>
 
                         </thead>
                      <tbody>
                         <tr *ngFor="let servidor of lista; index as i">
                             <td>{{servidor.nome}}</td>
-                            <td>{{servidor.cargoAtual}}</td>
-                            <td>{{servidor.setor}}</td>
-                            <td>{{servidor.dataAvaliacao}}</td>
+                            <td>{{servidor.cargo}}</td>
+                            <td>{{servidor.cargo}}</td>
+                            <td>{{servidor.vinculo_funcional}}</td>
                             <td class="direita">
                             <button type="button" class="btn btn-primary btn-rounded" mdbRippled (click)="edit(servidor)">Editar</button>
                             <!-- <button type="button" class="btn btn-primary btn-rounded" mdbRippled [routerLink]="['/admin/admin/servidordetails', servidor.id]">Editar</button>-->

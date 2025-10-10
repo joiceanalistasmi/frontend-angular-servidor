@@ -17,7 +17,7 @@ export class ServidorService {
   }
 
   delete(id: number): Observable<string> {
-    return this.http.delete<string>(this.API + "/deleteById/" + id, 
+    return this.http.delete<string>(this.API + "/delete/" + id, 
             { responseType: 'text' as 'json' });
   }
 
@@ -32,4 +32,6 @@ export class ServidorService {
   findById(id: number): Observable<Servidor> {
     return this.http.get<Servidor>(this.API + "/findById/" + id);
   }
+
+  
 }
