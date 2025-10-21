@@ -13,6 +13,4 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes), provideClientHydration(withEventReplay())
   ]
 };
-
-
-//parei aqui https://www.youtube.com/watch?v=zJFVhlwdwvg
+ 

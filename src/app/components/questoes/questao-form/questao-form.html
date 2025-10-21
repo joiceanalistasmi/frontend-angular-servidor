@@ -1,0 +1,49 @@
+<p>Questão de avaliação </p>
+ <br>
+<div class="container">
+    <div class="row">
+        <div class="col-12 azul">
+            <div class="card">
+                <div class="card-body">
+                    <h3> Cadastro de Questão  </h3>
+                    <br>
+                    <mdb-form-control>
+                        <input mdbInput type="text" id="enunciado"  class="form-control" [(ngModel)]="questao.enunciado" name="enunciado"/>
+                        <label for="enunciado" class="form-label">Enunciado</label>
+                    </mdb-form-control>
+                    <br>
+                    <mdb-form-control>
+                        <input mdbInput type="text" id="observacao"  class="form-control" [(ngModel)]="questao.observacao" name="observacao"/>
+                        <label for="observacao" class="form-label">Observação</label>
+                    </mdb-form-control>
+                    <br>                  
+                     <div class="mb-3">
+                    <label class="form-label d-block">Questão:</label>
+                        <div class="form-check form-check-inline">
+                            <input 
+                            class="form-check-input" 
+                            type="radio" 
+                            name="question_ativa" 
+                            id="ATIVO"                             
+                            [value]="'ATIVO'" 
+                            [(ngModel)]="questao.question_ativa" />
+                            <label class="form-check-label" for="ATIVO">Aplicar</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input 
+                            class="form-check-input" 
+                            type="radio" 
+                            name="question_ativa" 
+                            id="INATIVO" 
+                            [value]="'INATIVO'" 
+                            [(ngModel)]="questao.question_ativa" /> 
+                            <label class="form-check-label" for="INATIVO">Desconsiderar</label>
+                        </div>
+                    </div>
+                         <button type="button" class="btn btn-success btn-rounded" mdbRippled (click)="save()">Salvar</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

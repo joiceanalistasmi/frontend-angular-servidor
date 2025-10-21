@@ -10,8 +10,8 @@ import { ServidorService } from '../../../services/servidor';
   selector: 'app-servidordetails',
   standalone: true, 
   imports: [MdbFormsModule, FormsModule],
-  templateUrl: './servidordetails.html',
-  styleUrls: ['./servidordetails.scss'] 
+  templateUrl: './servidorForm.html',
+  styleUrls: ['./servidorForm.scss'] 
 })
 export class ServidorDetailsComponent {  
 
@@ -32,6 +32,12 @@ export class ServidorDetailsComponent {
  findById(id: number) { 
     this.servidorService.findById(id).subscribe({
       next: retorno => {
+         if (retorno.data_admissao) {
+              const dataOriginal = new Date(retorno.data_admissao);
+              // Usamos sua função auxiliar para formatar 'yyyy-MM-dd'
+              retorno.data_admissao = formatarData(dataOriginal); 
+          }
+
          this.servidor = retorno;
       },
       error: erro => {
@@ -73,7 +79,7 @@ export class ServidorDetailsComponent {
       });
 
     } else {
-      
+        
       this.servidorService.save(this.servidor).subscribe({
         next: mensagem => {
           Swal.fire({
@@ -102,3 +108,13 @@ export class ServidorDetailsComponent {
 export function formatarData(data: Date): string {
   return data.toISOString().split('T')[0];
 }
+
+ 
+/*
+formatarDataParaInput(data: string | Date): string {
+  const d = new Date(data);
+  const year = d.getFullYear();
+  const month = (d.getMonth() + 1).toString().padStart(2, '0');
+  const day = d.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}*/

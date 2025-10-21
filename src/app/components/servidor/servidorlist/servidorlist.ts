@@ -4,7 +4,7 @@ import { Servidor } from '../../../models/servidor';
 import Swal from 'sweetalert2';
 import { MdbModalService, MdbModalRef, MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { CommonModule } from '@angular/common';
-import { ServidorDetailsComponent } from "../servidordetails/servidordetails";
+import { ServidorDetailsComponent } from "../servidorForm/servidorForm";
 import { ServidorService } from '../../../services/servidor';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -85,7 +85,7 @@ export class Servidorlist implements OnInit {
   new() {
     this.servidorEdit = new Servidor();
     this.modalRef = this.modalService.open(this.modalServidorDetails, {
-      modalClass: 'modal-lg'
+      modalClass: 'modal-xl'
     });
   }
 

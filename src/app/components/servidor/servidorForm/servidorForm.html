@@ -1,11 +1,10 @@
-<p>Tela de Acesso a avaliação de Servidor(es)</p>
  <br>
 <div class="container">
     <div class="row">
         <div class="col-12 azul">
             <div class="card">
-                <div class="card-body">
-                    <h3> Cadastro de Servidor </h3>
+                 <div class="card-body">
+                      <h3> Cadastro de Servidor </h3>
                     <br>
                     <mdb-form-control>
                         <input mdbInput type="text" id="nome" placeholder="Nome" class="form-control" [(ngModel)]="servidor.nome" name="nome"/>
@@ -28,15 +27,9 @@
                     </mdb-form-control>
                      <br> 
                     <mdb-form-control>
-                    <input
-                        mdbInput
-                        type="date"
-                        class="form-control"
-                        id="data_admissao"
-                        name="data_admissao"
-                        [ngModel]="formatarDataParaInput(servidor.data_admissao)"
-                        (ngModelChange)="servidor.data_admissao = $event"
-                        />                    
+                        <input mdbInput type="date" id="data_admissao"
+                         placeholder="Data de Admissão" class="form-control" [(ngModel)]="servidor.data_admissao" name="data_admissao"/>
+                        <label for="data_admissao" class="form-label">Data de Admissão</label>
                     </mdb-form-control>
                     <br>
                     <div class="mb-3">
@@ -49,7 +42,7 @@
                             id="CONCURSADO" 
                             [value]="'CONCURSADO'"  
                             [(ngModel)]="servidor.vinculo_funcional" />
-                            <label class="form-check-label" for="concursado">Concursado</label>
+                            <label class="form-check-label" for="CONCURSADO">Concursado</label>
                         </div>
 
                         <div class="form-check form-check-inline">
@@ -60,7 +53,7 @@
                             id="PROBATORIO" 
                             [value]="'PROBATORIO'" 
                             [(ngModel)]="servidor.vinculo_funcional" />
-                            <label class="form-check-label" for="probatorio">Estágio Probatório</label>
+                            <label class="form-check-label" for="PROBATORIO">Estágio Probatório</label>
                         </div>
                     </div>
                     
@@ -89,7 +82,7 @@
                         </div>
                     </div>
                          <button type="button" class="btn btn-success btn-rounded" mdbRippled (click)="save()">Salvar</button> 
-                </div>
+                    </div>
             </div>
         </div>
     </div>

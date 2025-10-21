@@ -1,19 +1,19 @@
 export class Questao {
 
-    id: number;
-    descricao: string;
-    titulo: string;
-    valor: number;
-
+    id!: number;
+    enunciado!: string;
+    observacao!: string;
+    question_ativa!: string;
+/*
     constructor(
         id: number = 0,
-        descricao: string = '',
-        titulo: string = '',
-        valor: number = 0
+        enunciado: string = '',
+        observacao: string = '',
+        question_ativa: string = ''
     ) {
         this.id = id;
-        this.descricao = descricao;
-        this.titulo = titulo;
-        this.valor = valor;
-    }
+        this.enunciado = enunciado;
+        this.observacao = observacao;
+        this.question_ativa = question_ativa;
+    }*/
 }
