@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Login } from './components/layout/login/login.component';
+import { LoginComponent } from './components/layout/login/login.component';
 import { PrincipalComponent } from './components/layout/principal/principal.component';
 import { DashboardComponent } from './components/dashboard/dashboard';
 import { QuestoesFormComponent } from './components/questoes/questao-form/questao-form'; 
@@ -10,7 +10,7 @@ import { UsuariosComponent } from './components/usuarios/usuarios';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: "login", component: Login },
+  { path: "login", component: LoginComponent },
   {
     path: "admin", component: PrincipalComponent, children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

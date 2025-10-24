@@ -1,31 +1,68 @@
 import { Component, inject } from '@angular/core';
+import { Login } from '../../../auth/login';
 import { FormsModule } from '@angular/forms';
+import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { Router } from '@angular/router';
-import { MdbFormsModule } from 'mdb-angular-ui-kit/forms'; 
-import { RouterModule } from '@angular/router';
+import Swal from 'sweetalert2';
+import { LoginService } from '../../../auth/login.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MdbFormsModule, FormsModule, RouterModule],
+  imports: [FormsModule, MdbFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class Login {
+export class LoginComponent {
 
-  usuario!: string;
-  password!: string;
-  router = inject(Router); // injetar o Router, manter a instancia 
+  login: Login = new Login();
+
+  router = inject(Router);
+
+  loginService = inject(LoginService);
+
+
+  constructor(){
+    this.loginService.removerToken();
+  }
+
 
   logar() {
-    if (this.usuario === 'admin' && this.password === 'admin') {
-      this.router.navigate(['/admin/servidor']);
-      //redirecionar para servidor
-    } else {
-      alert('Usuário ou senha incorretos.');
-    }
-}
-  forgotPassword() {
-    alert('Função de recuperação de senha não implementada.');
+
+    this.loginService.logar(this.login).subscribe({
+      next: token => {
+
+        if (token)
+          this.loginService.addToken(token); //MUITO IMPORTANTE
+
+        this.gerarToast().fire({ icon: "success", title: "Seja bem-vindo!" });
+        this.router.navigate(['admin/dashboard']);
+
+        this.router.navigate(['/admin/carros']);
+      },
+      error: erro => {
+        Swal.fire('Usuário ou senha incorretos!', '', 'error');
+      }
+    });
+
   }
+
+  logout(){
+    
+  }
+
+  gerarToast() {
+    return Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+  }
+
 }

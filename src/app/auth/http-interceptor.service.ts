@@ -22,11 +22,11 @@ export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
         console.log('entrou aqui 2');
         
         if (err.status === 401) {
-          window.alert('401 - tratar aqui');
+          alert('401 - tratar aqui');
           router.navigate(['/login']);
         } else
         if (err.status === 403) {
-          window.alert('403 - tratar aqui');
+          alert('403 - tratar aqui');
           router.navigate(['/login']);
         } else {
           console.error('HTTP error:', err);
